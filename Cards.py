@@ -12,7 +12,7 @@ class Cards():
 
     #Print current card
     def __str__(self):
-        return (f"{self.curr_card[1]} of {self.curr_card[0]}")
+        return (f"[ {self.curr_card[1]} of {self.curr_card[0]} ]")
 
     #Draw a card from the deck and take it out from it
     def draw():
