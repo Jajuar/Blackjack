@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 class Cards():
 
@@ -8,7 +8,7 @@ class Cards():
                      ("Hearts","Ace"),("Hearts",2),("Hearts",3),("Hearts",4),("Hearts",5),("Hearts",6),("Hearts",7),("Hearts",8),("Hearts",9),("Hearts",10),("Hearts","Jack"),("Hearts","Queen"),("Hearts","King"),
                      ("Diamonds","Ace"),("Diamonds",2),("Diamonds",3),("Diamonds",4),("Diamonds",5),("Diamonds",6),("Diamonds",7),("Diamonds",8),("Diamonds",9),("Diamonds",10),("Diamonds","Jack"),("Diamonds","Queen"),("Diamonds","King"),
                      ("Spades","Ace"),("Spades",2),("Spades",3),("Spades",4),("Spades",5),("Spades",6),("Spades",7),("Spades",8),("Spades",9),("Spades",10),("Spades","Jack"),("Spades","Queen"),("Spades","King")]
-        self.curr_card = pass
+        self.curr_card = ""
 
     #Print current card
     def __str__(self):
@@ -23,11 +23,11 @@ class Cards():
                 dr == True
                 self.curr_card = self.deck[pick]
                 self.deck[pick] = 0
-                return self.deck[pick]
+                return self.curr_card
             else:
                 pick = randint(0,51)
 
-    def sum(self, hand):
+    def sum(self, hand, person):
         sum1 = 0
         sum2 = 0
         for suit,num in hand:
@@ -43,8 +43,8 @@ class Cards():
                 sum2 += num
 
         if (sum1 == sum2):
-            print(f"The current sum is {sum1} ")
+            print(f"\n{person} sum is {sum1} ")
             return (sum1,sum2)
         else:
-            print(f"The current sum is {sum1} or {sum2}")
+            print(f"\n{person} sum is {sum1} or {sum2}")
             return (sum1,sum2)

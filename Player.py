@@ -23,12 +23,12 @@ class Player():
 
     #Print player balance and name
     def __str__(self):
-        return f"{self.name} has {self.money} chips"
+        return f"\n{self.name} has {self.money} chips"
 
     def drop_hand(self):
         self.hand = []
 
     def print_hand(self):
-        print("Your hand: ")
+        print("\nYour hand: ")
         for suit,num in self.hand:
             print(f"[ {num} of {suit} ]")
