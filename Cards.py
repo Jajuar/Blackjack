@@ -15,7 +15,7 @@ class Cards():
         return (f"[ {self.curr_card[1]} of {self.curr_card[0]} ]")
 
     #Draw a card from the deck and take it out from it
-    def draw():
+    def draw(self):
         pick = randint(0,51)
         dr = False
         while (dr == False):
@@ -26,3 +26,25 @@ class Cards():
                 return self.deck[pick]
             else:
                 pick = randint(0,51)
+
+    def sum(self, hand):
+        sum1 = 0
+        sum2 = 0
+        for suit,num in hand:
+            if type(num) == str:
+                if (num == "Jack" or num == "Queen" or num == "King"):
+                    sum1 += 10
+                    sum2 += 10
+                elif (num == "Ace"):
+                    sum1 += 1
+                    sum2 += 11
+            else:
+                sum1 += num
+                sum2 += num
+
+        if (sum1 == sum2):
+            print(f"The current sum is {sum1} ")
+            return (sum1,sum2)
+        else:
+            print(f"The current sum is {sum1} or {sum2}")
+            return (sum1,sum2)

@@ -19,8 +19,23 @@ print("SPECIAL CARDS VALUES: ")
 print("ACE  = Player/Dealer chooses either 1 or 11")
 print("JACK-QUEEN-KING = 10")
 
-start = pass
+start = "M"
+stop = False
 end = False
+p1sum1 = 0
+p1sum2 = 0
+dlsum1 = 0
+dlsum2 = 0
+hit = True
+h = "M"
+p1busted = False
+dlbusted = False
+pa = "M"
+p1bj = False
+dlbj = False
+p1lost = False
+p1max = 0
+dlmax = 0
 
 #Check if the player wants to play
 while (start.upper() != "Y" or start.upper()  != "N":
@@ -86,24 +101,132 @@ if (start.upper() == "Y"):
                 print(mycards)
             else:
                 #Hidden card
-                print("[********]")
+                print("[///////]")
 
         #Now the player can draw more cards or stop
-        hit = True
         while (hit):
-            h = pass
+            #Let know how much does de user have in his hand
+            print_sum()
             while (h.upper() != "Y" or h.upper() != "N"):
                 h = input("Do you want another card?(Y/N): ")
             if (h.upper() == "Y"):
-                pass
+                p1.hand.append(mycards.draw())
+                p1.print_hand()
+                (p1sum1,p1sum2) = mycards.print_sum()
+                if (p1sum1 > 21 and p1sum2 > 21):
+                    hit = False
+                    p1busted = True
+                    print("BUSTED!!!")
+                elif(p1sum1 == 21 or p1sum2 == 21):
+                    hit = False
+                    p1bj = True
+                    print("21!!!")
+                else:
+                    continue
+            else:
+                hit = False
+
+        #Check if player busted or not
+        if (p1busted):
+            if (p1.money == 0):
+                print("Oh! that was your last chip(s) :(")
+                end == True
+            else:
+                while(pa.upper() != "Y" or pa.upper() != "N"):
+                    pa = input("Do you wanna keep playing?(Y/N):  ")
+                if (pa == "Y"):
+                    end = False
+                else:
+                    end = True
+        #It's Dealer's turn
+        else:
+            #Discover his faced down card first
+            dl.print_hand()
+            #Check if initial sum >= 17
+            (dlsum1,dlsum2) = mycards.print_sum()
+            while stop == False:
+                if (dlsum1 >= 17 and dlsum2 >= 17):
+                    print("Dealer can't draw more cards")
+                    stop == True
+                else:
+                    #Draw more cards
+                    dl.hand.append(mycards.draw())
+                    dl.print_hand()
+                    #Check that the Dealer does not bust
+                    (dlsum1,dlsum2) = mycards.print_sum()
+                    if (dlsum1 > 21 and dlsum2 > 21):
+                        stop = True
+                        dlbusted = True
+                        print("BUSTED!!!")
+                    elif(p1sum1 == 21 or p1sum2 == 21):
+                        stop = True
+                        dlbj = True
+                        print("21!!!")
+                    else:
+                        continue
+
+            #CHECK RESULTS!!!!!!!!
+            print("////////////RESULTS//////////////////")
+            #Both have 21
+            if(p1bj == True and dlbj == True):
+                print("It's a Tie!")
+                p1.tie(bet)
+            #Player1 wins with a 21
+            elif(p1bj == True and dlbj == False):
+                print("Winner winner chicken dinner!")
+                pl.win(bet)
+            #Dealer wins with a 21
+            elif(p1bj == False and dlbj == True):
+                print("The House always wins!")
+                print("Better luck next time Malarkey")
+                p1lost = True
+            #Nobody has a 21
+            else:
+                #Determine max sum without busting
+                #Player1
+                if(p1sum1 >= p1sum2):
+                    p1max = p1sum1
+                else:
+                    if(p1sum2 > 21):
+                        p1max = p1sum1
+                    else:
+                        p1max = p1sum2
+                #Dealer
+                if(dlsum1 >= dlsum2):
+                    dlmax = dlsum1
+                else:
+                    if(dlsum2 > 21):
+                        dlmax = dlsum1
+                    else:
+                        dlmax = dlsum2
+
+                #Decide winner
+                if (p1max > dlmax):
+                    print("Winner winner chicken dinner!")
+                    pl.win(bet)
+                elif(p1max < dlmax):
+                    print("The House always wins!")
+                    print("Better luck next time Malarkey")
+                    p1lost = True
+                else:
+                    print("It's a Tie!")
+                    p1.tie(bet)
 
 
+        #Play again?
+        if (p1.money == 0 and p1lost == True):
+            print("Oh! that was your last chip(s) :(")
+            end == True
+        else:
+            while(pa.upper() != "Y" or pa.upper() != "N"):
+                pa = input("Do you wanna keep playing?(Y/N):  ")
+            if (pa == "Y"):
+                end = False
+            else:
+                end = True
 
-
-
-
-
-
+        if (end == True):
+            print("Thank you for playing :)!")
 
 else:
     print("See you next time! ;) Bye!")

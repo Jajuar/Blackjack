@@ -7,5 +7,6 @@ class Dealer():
         self.hand = []
 
     def print_hand():
+        print("Dealer's hand: ")
         for suit,num in self.hand:
             print(f"[ {num} of {suit} ]")
